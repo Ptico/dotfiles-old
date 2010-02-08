@@ -10,9 +10,13 @@ colorscheme desert256
 
 set nobackup
 set nowritebackup
+
 syntax on
 set ruler						" Show the cursor position all the time
 set number						" Show line numbering
+set showmode					" Show the current mode
+
+filetype on
 
 " Search
 set incsearch					" Incremental search
