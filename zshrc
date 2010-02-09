@@ -115,18 +115,19 @@ export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
 #
 
 # term, iterm
-UTERM='term'
+UTERM='iterm'
 CSCHEME='default'
 
 case $UTERM in
 term)
-	source ~/.zsh/prompt.zsh
+	source ~/.zsh/prompt.d/term
 	;;
 iterm)
-	source ~/.zsh/pr_colors/$CSCHEME
-	setpcolor
+	source ~/.zsh/prompt.d/$CSCHEME
 	;;
 *)
 	source ~/.zsh/prompt.zsh
 	;;
 esac
+
+setprompt
