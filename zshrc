@@ -46,13 +46,10 @@ export MANPATH
 PATH_SCAN_DIR=~/.zsh/path
 PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 export PATH
-for f in "$PATH_SCAN_DIR".d/*.zsh; do
-	[[ -e $f && -s $f ]] && . $f
-done
 
 export MANPATH=/opt/local/share/man:$MANPATH
 export DISPLAY=:0.0
-export EDITOR=mate
+export EDITOR=vi
 export PAGER=less
 
 # Use hard limits, except for a smaller stack and no core dumps

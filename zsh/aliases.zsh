@@ -25,14 +25,11 @@ alias mkinst='sudo make install'
 alias mnt='sudo mount'
 alias mntl='sudo mount -o loop'
 alias umnt='sudo umount'
-alias cfg='./configure --prefix=/usr --sysconfdir=/etc'
 alias h=history
-alias ispell='ispell -d russian'
 alias d='dirs -v'
 alias ssync="rsync --rsh=ssh"
 alias ssyncr="rsync --rsh=ssh --recursive --verbose --progress"
 alias grab="sudo chown ${USER} --recursive"
-alias hmakej="hilite make -j"
 alias clean="rm *~"
 alias grep='grep --color=auto'
 
