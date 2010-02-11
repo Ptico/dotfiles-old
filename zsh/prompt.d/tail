@@ -1,0 +1,16 @@
+setprompt() {
+	setopt prompt_subst
+	
+	PR_NO_COLOR="%{$terminfo[sgr0]%}"
+	
+	color_gray=$'\e[38;5;238m'
+	color_true_1=$'\e[38;5;22m'
+	color_true_2=$'\e[38;5;34m'
+	color_false_1=$'\e[38;5;52m'
+	color_false_2=$'\e[38;5;124m'
+	color_path=$'\e[38;5;166m'
+	color_path_root=$'\e[38;5;196m'
+	
+	PROMPT='%(!.%{$color_path_root%}.%{$color_path%})%~ %{$color_gray%}>%(?,%{$color_true_1%},%{$color_false_1%})>%(?,%{$color_true_2%},%{$color_false_2%})>${PR_NO_COLOR} '
+	RPROMPT='%{$color_gray%}$(parse_git_branch) $(date "+%H:%M")${PR_NO_COLOR}'
+}

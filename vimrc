@@ -15,6 +15,8 @@ syntax on
 set ruler						" Show the cursor position all the time
 set number						" Show line numbering
 set showmode					" Show the current mode
+set expandtab
+set tabstop=2
 
 filetype on
 
