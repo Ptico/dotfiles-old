@@ -3,14 +3,18 @@
 
 def install_all
   Dir.chdir File.dirname(__FILE__) do
-    dotfiles_dir = Dir.pwd.sub(ENV['HOME'] + '/', '')
+    dotfiles_dir = Dir.pwd
   
     Dir['*'].each do |file|
       next unless File.extname(file).empty?
       target_name = file == 'bin' ? file : ".#{file}"
       target = File.join(ENV['HOME'], target_name)
       unless File.exist? target
-        system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
+        if ARGV.include?('--copy')
+          system %[cp -r #{File.join(dotfiles_dir, file)} #{target}]
+        else
+          system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
+        end
         p "Installed #{target}"
       end
     end
@@ -18,31 +22,35 @@ def install_all
 end
 
 def install_linux
-  Dir.chdir File.dirname(__FILE__) do
-    dotfiles_dir = Dir.pwd.sub(ENV['HOME'] + '/', '')
+  Dir.chdir File.dirname(__FILE__)+'/linux.diff' do
+    dotfiles_dir = Dir.pwd
   
     Dir['*'].each do |file|
-      next unless File.extname(file) == '.linux'
-      filename = File.basename(file, File.extname(file))
-      target_name = filename == 'bin' ? filename : ".#{filename}"
+      next unless File.extname(file).empty?
+      target_name = file == 'bin' ? file : ".#{file}"
       target = File.join(ENV['HOME'], target_name)
-      system %[rm -rf #{target}]
-      system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
-      p "Installed #{target}"
+      unless File.exist? target
+        if ARGV.include?('--copy')
+          system %[cp -r #{File.join(dotfiles_dir, file)} #{target}]
+        else
+          system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
+        end
+        p "Installed #{target}"
+      end
     end
   end
 end
 
 def remove_files
   Dir.chdir File.dirname(__FILE__) do
-    dotfiles_dir = Dir.pwd.sub(ENV['HOME'] + '/', '')
+    dotfiles_dir = Dir.pwd
   
     Dir['*'].each do |file|
       next unless File.extname(file).empty?
       target_name = file == 'bin' ? file : ".#{file}"
       target = File.join(ENV['HOME'], target_name)
       next unless File.exist? target
-      if ARGV[1] == '--force'
+      if ARGV.include?('--force')
         system %[rm -rf #{target}]
       else
         p "Delete #{target}? [y/N]:"
@@ -58,15 +66,16 @@ def remove_files
 end
 
 case ARGV.first
-  when 'install'
+  when 'install', 'setup'
+    install_linux if ARGV.include?('--linux')
     install_all
-    install_linux if ARGV[1] == 'linux'
-  when 'remove'
+  when 'remove', 'delete'
     remove_files
   else
-    <<-EOF
-      Usage
-      install [linux]   - Install dotfiles in your home directory
-      remove [--force]  - Remove your previos dotfiles (--force for remove without answers)
-    EOF
+    puts "Usage:"
+    puts 'install, setup        - Install dotfiles in your home directory.'
+    puts '         [--linux]    - Install for linux'
+    puts '         [--copy]     - Copy files (by default, setup created symlinks)'
+    puts 'remove, delete        - Remove your previos dotfiles'
+    puts '         [--force]    - Remove without confirmation'
 end
