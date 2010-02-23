@@ -12,5 +12,5 @@ setprompt() {
 	color_path_root=$'\e[38;5;196m'
 	
 	PROMPT='%(!.%{$color_path_root%}.%{$color_path%})%~ %{$color_gray%}>%(?,%{$color_true_1%},%{$color_false_1%})>%(?,%{$color_true_2%},%{$color_false_2%})>${PR_NO_COLOR} '
-	RPROMPT='%{$color_gray%}$(parse_git_branch) $(date "+%H:%M")${PR_NO_COLOR}'
+	RPROMPT='%{$color_gray%}$(ifmc) $(parse_git_branch) $(date "+%H:%M")${PR_NO_COLOR}'
 }

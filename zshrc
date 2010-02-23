@@ -111,20 +111,8 @@ export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
 # Load prompt
 #
 
-# term, iterm
-UTERM='iterm'
+# default, tail, term
 CSCHEME='default'
 
-case $UTERM in
-term)
-	source ~/.zsh/prompt.d/term
-	;;
-iterm)
-	source ~/.zsh/prompt.d/$CSCHEME
-	;;
-*)
-	source ~/.zsh/prompt.zsh
-	;;
-esac
-
+source ~/.zsh/prompt.d/$CSCHEME
 setprompt

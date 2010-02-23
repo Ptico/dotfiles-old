@@ -1,0 +1,5 @@
+if [ $MC_SID ]; then
+	echo "|mc|"
+else
+	echo ''
+fi
