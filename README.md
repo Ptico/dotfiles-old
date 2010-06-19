@@ -1,4 +1,4 @@
-My configuration files. Include colouring for iTerm (thnx to Dmytro Shteflyuk) and TextMate theme.
+My configuration files. Include colouring for iTerm and TextMate theme.
 
 ## Installator usage:
 
@@ -20,6 +20,7 @@ Close your iTerm and run script in Terminal.app
 
 
 ## Some parts of this files stolen from:
-[Dmytro Shteflyuk](http://github.com/kpumuk)
-[Dmitry Shaposhnik](http://github.com/daemon)
-[P.C. Shyamshankar](http://github.com/sykora)
+
+* [Dmytro Shteflyuk](http://github.com/kpumuk)
+* [Dmitry Shaposhnik](http://github.com/daemon)
+* [P.C. Shyamshankar](http://github.com/sykora)
