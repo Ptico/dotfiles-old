@@ -1,118 +1,56 @@
-# Confg file for ZedShell
-# Wrote by some dotfiles others peoples
-# Author Alexander Simonov <alex@simonov.in.ua>, Dmitry Shaposhnik <dmitry@shaposhnik.name>
-
 umask 022
-#
-# Clean paths
-#
-export PATH=""
-export MANPATH=""
 
-#
-# Based on /usr/libexec/path_helper
-#
-function read_path_dir () {
-	DIR="$1"
-	NEWPATH="$2"
-	EXT="$3"
-	SEP=""
-	IFS=$'\n'
-	if [ -d "$DIR".d ]; then
-		for f in "$DIR" "$DIR".d/*"$EXT" ; do
-		  if [ -f "$f" ]; then
-			for p in $(< "$f") ; do
-				[[ "$NEWPATH" = *(*:)${p}*(:*) ]] && continue
-				[ ! -z "$NEWPATH" ] && SEP=":"
-				NEWPATH="${p}${SEP}${NEWPATH}"
-			done
-		  fi
-		done
-	fi
-	echo $NEWPATH
-}
-
-# Make PATH from /etc/path(.d)?
-# MacOS X specific
-#
-PATH=`read_path_dir /etc/paths "$PATH"`
-MANPATH=`read_path_dir /etc/manpaths "$MANPATH"`
-
-export MANPATH
-
-#
-# Scan path dir for new path
-#
-PATH_SCAN_DIR=~/.zsh/path
-PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
-export PATH
-
-export MANPATH=/opt/local/share/man:$MANPATH
-export DISPLAY=:0.0
+# Some defaults
 export EDITOR=vi
 export PAGER=less
+export LANG="ru_RU.UTF-8"
 
-# Use hard limits, except for a smaller stack and no core dumps
-unlimit
-limit stack 8192
-limit core 0
-limit -s
+# Options
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt SHARE_HISTORY
+setopt AUTO_CD
+setopt NO_BEEP
+setopt NO_BG_NICE
 
-###
-# Options.	See zshoptions(1)
-SAVEHIST=5000
-HISTSIZE=5000
-DIRSTACKSIZE=20
-HISTFILE=~/.zsh_history 
+# Colors definition http://github.com/sykora/etc/blob/master/zsh/functions/spectrum/
+typeset -Ag FX FG BG
 
-#
-# Load functions
-#
-fpath=(~/.zsh/functions $fpath)
-autoload -U ~/.zsh/functions/*(:t)
+FX=(
+    reset     "[00m"
+    bold      "[01m" no-bold      "[22m"
+    italic    "[03m" no-italic    "[23m"
+    underline "[04m" no-underline "[24m"
+    blink     "[05m" no-blink     "[25m"
+    reverse   "[07m" no-reverse   "[27m"
+)
+for color in {000..255}; do
+    FG[$color]="[38;5;${color}m"
+    BG[$color]="[48;5;${color}m"
+done
 
-#
-# Load options
-#
-source ~/.zsh/options.zsh
-
-# Autoload zsh modules when they are referenced
-zmodload -a zsh/stat stat
-zmodload -a zsh/zpty zpty
-zmodload -a zsh/zprof zprof
-zmodload -ap zsh/mapfile mapfile
-
-#
-# Load aliaces
-#
+#source ~/.zsh/lscolors.zsh
+source ~/.zsh/functions.zsh
+source ~/.zsh/completion.zsh
+source ~/.zsh/keybind.zsh
 source ~/.zsh/aliases.zsh
 
-#
-# Load completion
-#
-source ~/.zsh/completion.zsh
+PROMPT_THEME='swamp'
 
-#
-# Load binds
-#
-source ~/.zsh/keybind.zsh
+if [[ -f ~/.myconfig ]]; then
+  source ~/.myconfig
+fi
 
-#
-# Others
-#
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-export COLORFGBG="default;default"
-export CFLAGS="-I/opt/local/include ${CFLAGS}"
-export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
+if [[ $UNAME_S == "Darwin" && $TERM_PROGRAM == "Apple_Terminal" ]]; then
+  source ~/.zsh/prompts/term
+else
+  source ~/.zsh/prompts/$PROMPT_THEME
+fi
 
-#
-# Load prompt
-#
-
-# default, tail, term
-CSCHEME='default'
-
-source ~/.zsh/prompt.d/$CSCHEME
 setprompt
+
+# RVM
+# bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm

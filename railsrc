@@ -1,9 +1,0 @@
-begin
-  require 'hirb'
-  Hirb.enable
-rescue LoadError
-end
-
-def sql(query)
-  ActiveRecord::Base.connection.select_all(query)
-end

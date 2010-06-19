@@ -16,6 +16,6 @@ setprompt() {
 		P_HOST=''
 	fi
 
-	PROMPT='%{$color_brace%}[%{$color_name%}%n${P_HOST}%{$color_brace%}][%{$color_path%}%~%{$color_brace%}]%{$color_branch%}$(parse_git_branch)%{$color_mc%}$(ifmc)${PR_NO_COLOR}%# '
-	RPROMPT="%{$color_time%}$(date "+%H:%M")%{$color_brace%}  %(?,%{$color_branch%}:-%)${PR_NO_COLOR},%{$color_name%}:'(${PR_NO_COLOR}"
+	PROMPT='%{$color_brace%}[%{$color_name%}%n${P_HOST}%{$color_brace%}][%{$color_path%}%~%{$color_brace%}]%{$color_branch%}$(git_branch)%{$color_mc%}$(ifmc)${PR_NO_COLOR}%# '
+	RPROMPT="%{$color_time%}%T%{$color_brace%}  %(?,%{$color_branch%}:-%)${PR_NO_COLOR},%{$color_name%}:'(${PR_NO_COLOR}"
 }

@@ -6,6 +6,8 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 
+alias _='sudo'
+
 alias mv='nocorrect mv -v'
 alias cp='nocorrect cp -v'
 alias cpf='nocorrect cp -R'

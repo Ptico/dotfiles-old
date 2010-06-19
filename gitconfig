@@ -1,6 +1,6 @@
 [user]
-	name = Andrey Savchenko
-	email = andrey@aejis.eu
+	name = <%=name %>
+	email = <%=email %>
 
 [alias]
 	s = status

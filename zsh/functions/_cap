@@ -1,4 +1,4 @@
-#compdef rake
+#compdef cap
 
 if [ -f Capfile ]; then
 	recent=`ls -t .cap_tasks~ Capfile **/deploy.rb **/deploy/*.rb 2> /dev/null 1| head -n 1`

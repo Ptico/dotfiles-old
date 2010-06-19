@@ -8,6 +8,8 @@
 *.bak
 *.log
 *.pid
+*_.*
+*._*
 
 db/schema.rb
 db/*.sqlite3

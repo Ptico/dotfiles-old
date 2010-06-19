@@ -1,44 +1,47 @@
 #!/usr/bin/env ruby
-# from http://errtheblog.com/posts/89-huba-huba
+require "erb"
+
+SKIP = %w{install.rb README goodies}
 
 def install_all
   Dir.chdir File.dirname(__FILE__) do
     dotfiles_dir = Dir.pwd
   
     Dir['*'].each do |file|
-      next unless File.extname(file).empty?
-      target_name = file == 'bin' ? file : ".#{file}"
+      next if (SKIP.include?(file.to_s) or file.to_s == 'gitconfig')
+
+      target_name = ".#{file}"
       target = File.join(ENV['HOME'], target_name)
-      unless File.exist? target
-        if ARGV.include?('--copy')
-          system %[cp -r #{File.join(dotfiles_dir, file)} #{target}]
-        else
-          system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
-        end
-        p "Installed #{target}"
+
+      if File.exist?(target) and !ARGV.include?('--force')
+        puts "Rewrite #{target}? [y/N]:"
+        next unless STDIN.gets.strip.to_s.downcase == 'y'
       end
+
+      if ARGV.include?('--symlink')
+        `ln -vsf #{File.join(dotfiles_dir, file)} #{target}`
+      else
+        `cp -r #{File.join(dotfiles_dir, file)} #{target}`
+      end
+
+      puts "Installed #{target}"
     end
   end
 end
 
-def install_linux
-  Dir.chdir File.dirname(__FILE__)+'/linux.diff' do
-    dotfiles_dir = Dir.pwd
-  
-    Dir['*'].each do |file|
-      next unless File.extname(file).empty?
-      target_name = file == 'bin' ? file : ".#{file}"
-      target = File.join(ENV['HOME'], target_name)
-      unless File.exist? target
-        if ARGV.include?('--copy')
-          system %[cp -r #{File.join(dotfiles_dir, file)} #{target}]
-        else
-          system %[ln -vsf #{File.join(dotfiles_dir, file)} #{target}]
-        end
-        p "Installed #{target}"
-      end
-    end
+def install_gitconfig
+  target = File.join(ENV['HOME'], '.gitconfig')
+  if File.exist?(target) && !ARGV.include?('--force')
+    puts "Rewrite #{target}? [y/N]:"
+    return unless STDIN.gets.strip.to_s.downcase == 'y'
   end
+  puts "Your full name:"
+  name = STDIN.gets.strip.to_s
+  puts "Your email:"
+  email = STDIN.gets.strip.to_s
+  gitconfig = File.read('gitconfig')
+  out = ERB.new(gitconfig)
+  File.new(target,  "w+").write(out.result(binding))
 end
 
 def remove_files
@@ -46,19 +49,19 @@ def remove_files
     dotfiles_dir = Dir.pwd
   
     Dir['*'].each do |file|
-      next unless File.extname(file).empty?
-      target_name = file == 'bin' ? file : ".#{file}"
+      next if SKIP.include?(file.to_s)
+      target_name = ".#{file}"
       target = File.join(ENV['HOME'], target_name)
-      next unless File.exist? target
+      next unless File.exist?(target)
       if ARGV.include?('--force')
-        system %[rm -rf #{target}]
+        `rm -rf #{target}`
       else
-        p "Delete #{target}? [y/N]:"
+        puts "Delete #{target}? [y/N]:"
         if STDIN.gets.strip.to_s.downcase == 'y'
-          system %[rm -rf #{target}]
-          p "Removed #{target}"
+          `rm -rf #{target}`
+          puts "Removed #{target}"
         else
-          p "Not removed #{target}"
+          puts "Not removed #{target}"
         end
       end
     end
@@ -67,15 +70,17 @@ end
 
 case ARGV.first
   when 'install', 'setup'
-    install_linux if ARGV.include?('--linux')
     install_all
+    install_gitconfig
   when 'remove', 'delete'
     remove_files
   else
-    puts "Usage:"
-    puts 'install, setup        - Install dotfiles in your home directory.'
-    puts '         [--linux]    - Install for linux'
-    puts '         [--copy]     - Copy files (by default, setup created symlinks)'
-    puts 'remove, delete        - Remove your previos dotfiles'
-    puts '         [--force]    - Remove without confirmation'
+   puts <<-EOF
+    Usage:
+    install, setup        - Install dotfiles in your home directory.
+             [--force]    - Rewrite target if exist
+             [--symlink]  - Create symlinks instead of copy files
+    remove, delete        - Remove dotfiles
+             [--force]    - Remove without confirmation for each file
+   EOF
 end

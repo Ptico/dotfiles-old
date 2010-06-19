@@ -1,9 +1,0 @@
-setopt APPEND_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt SHARE_HISTORY
-setopt AUTO_CD
-setopt NO_BEEP
-setopt NO_BG_NICE
-
