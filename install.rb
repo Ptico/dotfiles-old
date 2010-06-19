@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "erb"
 
-SKIP = %w{install.rb README goodies}
+SKIP = %w{install.rb README.md goodies}
 
 def install_all
   Dir.chdir File.dirname(__FILE__) do
