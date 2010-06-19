@@ -72,6 +72,7 @@ case ARGV.first
   when 'install', 'setup'
     install_all
     install_gitconfig
+    `cp -n myconfig ~/.myconfig`
   when 'remove', 'delete'
     remove_files
   else

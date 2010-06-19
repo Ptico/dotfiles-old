@@ -1,0 +1,5 @@
+# File to store custom configurations
+
+# PROMPT_THEME='swamp'
+# export EDITOR=mate
+# alias ls='ls -FG'

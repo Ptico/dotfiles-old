@@ -15,27 +15,24 @@ setopt AUTO_CD
 setopt NO_BEEP
 setopt NO_BG_NICE
 
-# Colors definition http://github.com/sykora/etc/blob/master/zsh/functions/spectrum/
-typeset -Ag FX FG BG
+SAVEHIST=5000
+HISTFILE=~/.zsh_history
 
-FX=(
-    reset     "[00m"
-    bold      "[01m" no-bold      "[22m"
-    italic    "[03m" no-italic    "[23m"
-    underline "[04m" no-underline "[24m"
-    blink     "[05m" no-blink     "[25m"
-    reverse   "[07m" no-reverse   "[27m"
-)
-for color in {000..255}; do
-    FG[$color]="[38;5;${color}m"
-    BG[$color]="[48;5;${color}m"
-done
+export UNAME_S=$(uname -s 2>&1 || echo "Linux" )
 
-#source ~/.zsh/lscolors.zsh
+source ~/.zsh/lscolors.zsh
 source ~/.zsh/functions.zsh
 source ~/.zsh/completion.zsh
 source ~/.zsh/keybind.zsh
 source ~/.zsh/aliases.zsh
+
+if [[ $UNAME_S == "Darwin" ]]; then
+  # Reread path and make GNU coreutils happy
+  export PATH=''
+  PATH=`read_path_dir /etc/paths "$PATH"`
+  PATH=`read_path_dir /etc/path.d "$PATH"`
+  export PATH
+fi
 
 PROMPT_THEME='swamp'
 

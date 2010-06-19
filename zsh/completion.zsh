@@ -28,8 +28,7 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*'   force-list always
 
 zstyle ':completion:*' menu select=long-list select=0
-#zstyle ':completion:*' list-colors "${LS_COLORS}"
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+#zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' old-menu false
 
 zstyle ':completion:*' group-name ''
