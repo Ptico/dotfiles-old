@@ -34,12 +34,14 @@ IRB.conf[:USE_READLINE] = true
 IRB.conf[:SAVE_HISTORY] = 1000
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb_history"
 
+# Pretty print
 begin
   require 'pp'
 rescue LoadError => err
   warn "Couldn't load Pretty Print: #{err}"
 end
 
+# Awesome print
 begin
   require "ap"
   IRB::Irb.class_eval do
@@ -64,7 +66,7 @@ rescue
   warn "Couldn't load Bond: gem install bond"
 end
 
-if ENV['RAILS_ENV']
+if ENV['RAILS_ENV'] || defined?(Rails)
   begin
     require 'hirb'
     Hirb.enable

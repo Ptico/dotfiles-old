@@ -3,6 +3,7 @@
 *.esproj
 .com.apple.*
 .DS_Store
+.rspec-tm
 
 *~
 *.bak

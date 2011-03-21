@@ -40,6 +40,8 @@ alias grab="sudo chown ${USER} --recursive"
 alias clean="rm *~"
 alias grep='grep --color=auto'
 
+alias git lg="nocorrect git lg"
+
 # Rails 2
 alias rs='script/server'
 alias rc='script/console'
@@ -64,3 +66,8 @@ alias -s cfg="vim"
 alias -s log="tail -50"
 alias -s gz="tar xzf"
 alias -s bz2="tar xjf"
+
+
+##
+#alias "гит пыщ"="git put"
+alias гит="git"
