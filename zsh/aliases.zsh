@@ -17,7 +17,7 @@ alias mc='mc --nocolor'
 alias mkdir='nocorrect mkdir'
 alias man='nocorrect man'
 alias find='noglob find'
-alias ls='ls -FG --color --group-directories-first'
+#alias ls='ls -FG --color --group-directories-first'
 alias ll='ls -l'
 alias la='ls -a'
 alias li='ls -ial'
@@ -50,6 +50,7 @@ alias rdb='script/dbconsole'
 
 # Rails 3
 alias r='rails'
+alias be='bundle exec'
 
 # Global
 alias -g M='|more'

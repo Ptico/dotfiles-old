@@ -40,11 +40,7 @@ if [[ -f ~/.myconfig ]]; then
   source ~/.myconfig
 fi
 
-if [[ $UNAME_S == "Darwin" && $TERM_PROGRAM == "Apple_Terminal" ]]; then
-  source ~/.zsh/prompts/term
-else
   source ~/.zsh/prompts/$PROMPT_THEME
-fi
 
 setprompt
 
