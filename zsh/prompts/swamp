@@ -1,9 +1,0 @@
-setprompt() {
-	setopt prompt_subst
-	PR_NO_COLOR="%{$terminfo[sgr0]%}"
-  path_color=$'\e[38;5;58m'
-  user_color=$'\e[38;5;60m'
-  git_color=$'\e[38;5;66m'
-  PROMPT='(%{$path_color%}%~%{$FX[reset]%}) (%{$user_color%}%n%{$FX[reset]%}) %{$git_color%}$(git_branch)%{$FX[reset]%}%(!.#.>) '
-  RPROMPT='%? %{$FG[166]%}$(ifmc)%{$FX[reset]%} (%{$FG[237]%}%T%{$FX[reset]%})${PR_NO_COLOR}'
-}
